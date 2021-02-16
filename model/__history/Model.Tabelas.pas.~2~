@@ -1,0 +1,21 @@
+unit Model.Tabelas;
+
+interface
+
+type
+  TTabelas = class
+  private
+    FNome: String;
+    procedure SetNome(const Value: String);
+    { private declarations }
+  protected
+    { protected declarations }
+  public
+    { public declarations }
+    property Nome: String read FNome write SetNome;
+  end;
+
+implementation
+
+
+end.

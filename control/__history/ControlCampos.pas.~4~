@@ -1,0 +1,25 @@
+unit ControlCampos;
+
+interface
+
+uses Model.Campos;
+
+type
+
+  TControlCampos = class
+  private
+    { private declarations }
+    FListaCampos: TModelCampos;
+  protected
+    { protected declarations }
+  public
+    { public declarations }
+
+  published
+    { published declarations }
+  end;
+
+implementation
+
+
+end.

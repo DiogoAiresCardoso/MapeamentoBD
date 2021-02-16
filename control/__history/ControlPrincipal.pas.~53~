@@ -1,0 +1,108 @@
+unit ControlPrincipal;
+
+interface
+
+uses Vcl.Forms, Service.Mapear,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.UI.Intf,
+  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys, FireDAC.VCLUI.Wait,
+  Data.DB, FireDAC.Comp.Client, FireDAC.Comp.DataSet, Model.Campos,
+  Model.Tabelas, SysUtils, Service.Connection;
+
+type
+  TControlPrincipal = class
+  private
+    FDMemTable: TFDMemTable;
+    FDataSource: TDataSource;
+
+    FTipoBD: TBancoDados;
+    FSenha: String;
+    FDatabase: String;
+    FHost: String;
+    FUsuario: String;
+    FPorta: Integer;
+    { private declarations }
+  protected
+    { protected declarations }
+    Mapear : TServiceMapear;
+  public
+    { public declarations }
+    constructor Create;
+    destructor Destroy; override;
+    procedure ListarTabelas;
+
+  published
+    property DataSource: TDataSource read FDataSource;
+
+    property Host: String        read FHost     write FHost;
+    property Porta: Integer      read FPorta    write FPorta;
+    property TipoBD: TBancoDados read FTipoBD   write FTipoBD;
+    property Database: String    read FDatabase write FDatabase;
+    property Usuario: String     read FUsuario  write FUsuario;
+    property Senha: String       read FSenha    write FSenha;
+
+  end;
+
+
+implementation
+
+
+{ TControlPrincipal }
+
+constructor TControlPrincipal.Create;
+begin
+  inherited Create;
+  Mapear := TServiceMapear.Create;
+
+  FDMemTable := TFDMemTable.Create(nil);
+  FDataSource := TDataSource.Create(nil);
+end;
+
+destructor TControlPrincipal.Destroy;
+begin
+  FreeAndNil(FDataSource);
+  FreeAndNil(FDMemTable);
+  Mapear.Free;
+  inherited Destroy;
+end;
+
+procedure TControlPrincipal.ListarTabelas;
+var
+  Tabelas : TModelTabelas;
+  I: Integer;
+begin
+  FDataSource.DataSet := nil;
+
+  if not FDMemTable.IsEmpty then
+    FDMemTable.EmptyDataSet;
+
+  FDMemTable.FieldDefs.BeginUpdate;
+  FDMemTable.FieldDefs.Clear;
+  FDMemTable.FieldDefs.Add('selecionar', TFieldType.ftBoolean);
+  FDMemTable.FieldDefs.Add('tabela', TFieldType.ftString, 50);
+  FDMemTable.FieldDefs.EndUpdate;
+
+  FDMemTable.CreateDataSet;
+  FDMemTable.Close;
+  FDMemTable.Open;
+
+  Tabelas := Mapear.MapearTabelas;
+
+  FDMemTable.DisableControls;
+
+  for I := 0 to Pred(Tabelas.Lista.Count) do
+  begin
+    FDMemTable.Append;
+    FDMemTable.FieldByName('selecionar').AsBoolean := False;
+    FDMemTable.FieldByName('tabela').AsString      := Tabelas.Lista.Items[I].Nome;
+    FDMemTable.Post;
+  end;
+
+  FDMemTable.First;
+  FDMemTable.EnableControls;
+
+  FDataSource.DataSet := FDMemTable;
+end;
+
+end.

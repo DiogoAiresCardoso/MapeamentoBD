@@ -1,0 +1,33 @@
+unit Model.Tabelas;
+
+interface
+
+uses Generics.Collections;
+
+type
+  TTabelas = class
+  private
+    FNome: String;
+    { private declarations }
+  protected
+    { protected declarations }
+  public
+    { public declarations }
+    property Nome: String read FNome write FNome;
+  end;
+
+  TModelTabelas = class
+  private
+    { private declarations }
+  protected
+    { protected declarations }
+  public
+    { public declarations }
+
+
+  end;
+
+implementation
+
+
+end.

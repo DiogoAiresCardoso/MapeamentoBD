@@ -1,0 +1,7 @@
+unit Service.Connection;
+
+interface
+
+implementation
+
+end.

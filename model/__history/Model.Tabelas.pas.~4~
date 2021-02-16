@@ -1,0 +1,36 @@
+unit Model.Tabelas;
+
+interface
+
+uses Generics.Collections;
+
+type
+  TTabelas = class
+  private
+    FNome: String;
+    { private declarations }
+  protected
+    { protected declarations }
+  public
+    { public declarations }
+    property Nome: String read FNome write FNome;
+  end;
+
+  TModelTabelas = class
+  private
+    FLista: TList<TTabelas>;
+    procedure SetLista(const Value: TList<TTabelas>);
+    { private declarations }
+  protected
+    { protected declarations }
+  public
+    { public declarations }
+    property Lista: TList<TTabelas> read FLista write SetLista;
+
+  end;
+
+implementation
+
+
+
+end.

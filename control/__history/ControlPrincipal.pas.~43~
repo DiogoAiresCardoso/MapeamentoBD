@@ -1,0 +1,94 @@
+﻿unit ControlPrincipal;
+
+interface
+
+uses Vcl.Forms, Service.Mapear,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.UI.Intf,
+  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys, FireDAC.VCLUI.Wait,
+  Data.DB, FireDAC.Comp.Client, FireDAC.Comp.DataSet, Model.Campos,
+  Model.Tabelas, SysUtils;
+
+type
+  TControlPrincipal = class
+  private
+    FDMemTable: TFDMemTable;
+    DataSource: TDataSource;
+    procedure SetForm(const Value: TForm);
+    { private declarations }
+  protected
+    { protected declarations }
+    Mapear : TServiceMapear;
+  public
+    { public declarations }
+    constructor Create;
+    destructor Destroy; override;
+    procedure ListarTabelas;
+
+  published
+
+  end;
+
+
+implementation
+
+
+{ TControlPrincipal }
+
+constructor TControlPrincipal.Create;
+begin
+  inherited Create;
+  Mapear := TServiceMapear.Create;
+
+  FDMemTable := TFDMemTable.Create(nil);
+  DataSource := TDataSource.Create(nil);
+end;
+
+destructor TControlPrincipal.Destroy;
+begin
+  FreeAndNil(DataSource);
+  FreeAndNil(FDMemTable);
+  Mapear.Free;
+  inherited Destroy;
+end;
+
+procedure TControlPrincipal.ListarTabelas;
+var
+  Tabelas : TModelTabelas;
+  I: Integer;
+begin
+  DataSource.DataSet := nil;
+
+  if not FDMemTable.IsEmpty then
+    FDMemTable.EmptyDataSet;
+
+  FDMemTable.FieldDefs.BeginUpdate;
+  FDMemTable.FieldDefs.Clear;
+  FDMemTable.FieldDefs.Add('selecionar', TFieldType.ftBoolean);
+  FDMemTable.FieldDefs.Add('tabela', TFieldType.ftString, 50);
+  FDMemTable.FieldDefs.EndUpdate;
+
+  FDMemTable.CreateDataSet;
+  FDMemTable.Close;
+  FDMemTable.Open;
+
+  Tabelas := Mapear.MapearTabelas;
+
+  FDMemTable.DisableControls := False;
+
+  for I := 0 to Pred(Tabelas.Lista.Count) do
+  begin
+    FDMemTable.Append;
+    FDMemTable.FieldByName('selecionar').AsBoolean := False;
+    FDMemTable.FieldByName('tabela').AsString      := Tabelas.Lista.Items[I].Nome;
+    FDMemTable.Post;
+  end;
+
+  FDMemTable.First;
+  FDMemTable.EnableControls;
+
+  DataSource.DataSet := FDMemTable;
+end;
+
+end.

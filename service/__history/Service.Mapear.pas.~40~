@@ -1,0 +1,75 @@
+﻿unit Service.Mapear;
+
+interface
+
+uses Service.Connection, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.UI.Intf,
+  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys, FireDAC.VCLUI.Wait,
+  Data.DB, FireDAC.Comp.Client, FireDAC.Comp.DataSet,
+  SysUtils, Model.Tabelas;
+
+type
+
+  TServiceMapear = class(TServiceConnection)
+  private
+    { private declarations }
+    FFDMetaInfo: TFDMetaInfoQuery;
+  protected
+    { protected declarations }
+  public
+    { public declarations }
+    constructor Create;
+    destructor Destroy; override;
+
+    function ListarTabelas: TModelTabelas;
+    function MapearCampos
+  end;
+
+implementation
+
+
+
+{ TServiceMapear }
+
+constructor TServiceMapear.Create;
+begin
+  inherited Create;
+  FFDMetaInfo := TFDMetaInfoQuery.Create(nil);
+
+  FFDMetaInfo.Connection := FDConnection;
+end;
+
+destructor TServiceMapear.Destroy;
+begin
+  FFDMetaInfo.Close;
+  FreeAndNil(FFDMetaInfo);
+  inherited Destroy;
+end;
+
+function TServiceMapear.ListarTabelas: TModelTabelas;
+
+   function PreencheTabela: TTabelas;
+   begin
+     Result      := TTabelas.Create;
+     Result.Nome := FFDMetaInfo.FieldByName('TABLE_NAME').AsString;
+   end;
+
+begin
+  Result := TModelTabelas.Create;
+
+  FFDMetaInfo.MetaInfoKind := mkTables;
+  FFDMetaInfo.CatalogName  := Database;
+  FFDMetaInfo.Active := True;
+
+  FFDMetaInfo.First;
+
+  while not FFDMetaInfo.Eof do
+  begin
+    Result.Lista.Add(PreencheTabela);
+
+    FFDMetaInfo.Next;
+  end;
+end;
+
+end.

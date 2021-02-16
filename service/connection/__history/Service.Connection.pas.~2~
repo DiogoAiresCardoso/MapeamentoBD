@@ -1,0 +1,21 @@
+unit Service.Connection;
+
+interface
+
+type
+
+  TServiceConnection = class
+  private
+    { private declarations }
+  protected
+    { protected declarations }
+  public
+    { public declarations }
+
+  published
+    { published declarations }
+  end;
+
+implementation
+
+end.

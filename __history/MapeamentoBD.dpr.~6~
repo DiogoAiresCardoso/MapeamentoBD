@@ -1,0 +1,17 @@
+program MapeamentoBD;
+
+uses
+  Vcl.Forms,
+  ufrmPrincipal in 'view\ufrmPrincipal.pas' {frmPrincipal},
+  Model.Campos in 'model\Model.Campos.pas',
+  ControlCampos in 'control\ControlCampos.pas',
+  ControlPrincipal in 'control\ControlPrincipal.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmPrincipal, frmPrincipal);
+  Application.Run;
+end.

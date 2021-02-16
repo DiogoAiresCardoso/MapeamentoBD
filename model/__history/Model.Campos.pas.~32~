@@ -1,0 +1,71 @@
+unit Model.Campos;
+
+interface
+
+uses Data.DB, Generics.Collections, FireDAC.Phys.Intf;
+
+type
+  TCampos = class
+  private
+    FNome: string;
+    FTipoUnit: String;
+    FTipo: TFieldType;
+    procedure SetTipo(const Value: TFieldType);
+    { private declarations }
+  protected
+    { protected declarations }
+  public
+    { public declarations }
+    property Nome: string     read FNome write FNome;
+    property Tipo: TFieldType read FTipo write SetTipo;
+    property TipoUnit: String read FTipoUnit write FTipoUnit;
+  end;
+
+
+  TModelCampos = class
+  private
+    FListaCampos: TList<TCampos>;
+    { private declarations }
+  protected
+    { protected declarations }
+  public
+    { public declarations }
+    constructor Create;
+    destructor Destroy; override;
+
+    property ListaCampos: TList<TCampos> read FListaCampos;
+  end;
+
+implementation
+
+
+{ TModelCampos }
+
+constructor TModelCampos.Create;
+begin
+  inherited Create;
+  FListaCampos := TList<TCampos>.Create;
+end;
+
+destructor TModelCampos.Destroy;
+begin
+  FListaCampos.Free;
+  inherited Destroy;
+end;
+
+{ TCampos }
+
+procedure TCampos.SetTipo(const Value: TFieldType);
+begin
+  case Value of
+    ftUnknown, ftString, ftWord, ftFixedChar, ftWideString, ftFixedWideChar,
+    ftLongWord: FTipoUnit := 'String';
+    ftSmallint, ftLargeint, ftShortint, ftInteger: FTipoUnit := 'Integer';
+    ftBoolean: FTipoUnit := 'Boolean';
+    ftFloat, ftCurrency, ftBCD, ftFMTBcd, ftExtended: FTipoUnit := 'Double';
+    ftDate, ftTime, ftDateTime, ftTimeStamp, ftOraTimeStamp: FTipoUnit := 'TDateTime';
+    ftBlob, ftMemo, ftFmtMemo, ftOraClob, ftOraBlob, ftWideMemo: FTipoUnit := 'String';
+  end;
+end;
+
+end.
