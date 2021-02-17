@@ -25,9 +25,6 @@ object Form1: TForm1
     Align = alLeft
     Caption = 'Conex'#227'o'
     TabOrder = 0
-    ExplicitLeft = 4
-    ExplicitTop = -2
-    ExplicitHeight = 256
     object Label1: TLabel
       Left = 8
       Top = 14
@@ -143,8 +140,6 @@ object Form1: TForm1
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitWidth = 1073
-    ExplicitHeight = 520
     object Panel2: TPanel
       Left = 0
       Top = 210
@@ -153,8 +148,6 @@ object Form1: TForm1
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitTop = 469
-      ExplicitWidth = 1073
       object Label6: TLabel
         Left = 4
         Top = 4
@@ -171,7 +164,7 @@ object Form1: TForm1
         Text = ''
         OnKeyUp = msePESQUISARKeyUp
       end
-      object Button1: TButton
+      object btnMarcar: TButton
         Left = 331
         Top = 16
         Width = 100
@@ -179,7 +172,7 @@ object Form1: TForm1
         Caption = 'Marcar'
         TabOrder = 1
       end
-      object Button2: TButton
+      object btnDesmarcar: TButton
         Left = 437
         Top = 16
         Width = 100
@@ -187,7 +180,7 @@ object Form1: TForm1
         Caption = 'Desmarcar'
         TabOrder = 2
       end
-      object Button3: TButton
+      object btnMarcarTodos: TButton
         Left = 543
         Top = 16
         Width = 100
@@ -195,7 +188,7 @@ object Form1: TForm1
         Caption = 'Marcar todos'
         TabOrder = 3
       end
-      object Button4: TButton
+      object btnDesmarcarTodos: TButton
         Left = 649
         Top = 16
         Width = 100
@@ -211,8 +204,6 @@ object Form1: TForm1
       Height = 210
       Align = alClient
       TabOrder = 1
-      ExplicitWidth = 1073
-      ExplicitHeight = 469
       object cxGridTabelasDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>

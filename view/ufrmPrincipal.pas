@@ -45,10 +45,10 @@ type
     Panel2: TPanel;
     Label6: TLabel;
     msePESQUISAR: TRzMaskEdit;
-    Button1: TButton;
-    Button2: TButton;
-    Button3: TButton;
-    Button4: TButton;
+    btnMarcar: TButton;
+    btnDesmarcar: TButton;
+    btnMarcarTodos: TButton;
+    btnDesmarcarTodos: TButton;
     cxGridTabelas: TcxGrid;
     cxGridTabelasDBTableView1: TcxGridDBTableView;
     cxGridTabelasLevel1: TcxGridLevel;
