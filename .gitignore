@@ -58,7 +58,8 @@ __history/
 
 # Castalia statistics file
 
-
+/DCU/
+/EXE/
 /Base limpa/
 /CFG/
 /Dados/
